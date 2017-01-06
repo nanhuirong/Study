@@ -37,7 +37,6 @@
     </build>
 
     <dependencies>
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -116,6 +115,12 @@
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-client</artifactId>
             <version>${hadoop.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>org.json</artifactId>
+            <version>chargebee-1.0</version>
         </dependency>
 
 
