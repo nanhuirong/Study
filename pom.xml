@@ -12,9 +12,9 @@
 
     <properties>
         <encoding>UTF-8</encoding>
-        <scala.version>2.10.4</scala.version>
+        <scala.version>2.11.1</scala.version>
         <spark.version>1.5.2</spark.version>
-        <hadoop.version>2.2.0</hadoop.version>
+        <hadoop.version>2.7.0</hadoop.version>
         <jdk.version>1.7</jdk.version>
     </properties>
 

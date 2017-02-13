@@ -3,6 +3,8 @@ package com.huirong.json;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -10,30 +12,26 @@ import org.json.JSONObject;
  */
 public class HelloWord {
     public static void main(String[] args)throws Exception {
-        File file = new File("/Users/quixeynew/work/data/waimai.meiyuan.com/out/2017-01-06-08_05_55.157/cp/1.txt");
-        String line = null;
+        String path = "/Users/quixeynew/1.txt";
+        File file = new File(path);
+        String line;
         BufferedReader br = new BufferedReader(new FileReader(file));
-        int count = 0;
         while ((line = br.readLine()) != null){
-            JSONObject object = new JSONObject(line);
-//            System.out.println(object.getString("url"));
-            if (object.getJSONArray("location").getJSONObject(0).has("geo")){
-                JSONObject geoObj = object.getJSONArray("location").getJSONObject(0).getJSONObject("geo");
-                if (geoObj.has("latitude") && geoObj.has("longitude")){
-
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(line);
+                if (jsonObject.has("url")){
+                    System.out.println(jsonObject.getString("url"));
                 }else {
-
-                    System.out.println(object.getString("url"));
                     System.out.println(line);
                 }
-            }else {
-                System.out.println("not geo");
+            }catch (JSONException e){
+                System.out.println("--------------");
                 System.out.println(line);
-                System.out.println(object.getString("url"));
             }
 
+
         }
-        System.out.println();
     }
 
 }
