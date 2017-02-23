@@ -167,6 +167,5 @@
     <orderEntry type="library" name="Maven: org.json:org.json:chargebee-1.0" level="project" />
     <orderEntry type="library" name="Maven: com.itextpdf:itextpdf:5.5.1" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.47" level="project" />
-    <orderEntry type="library" name="scala-sdk-2.11.1" level="application" />
   </component>
 </module>

@@ -1,2 +1,1 @@
-# Study
-my first project in github
+practice spark for use
