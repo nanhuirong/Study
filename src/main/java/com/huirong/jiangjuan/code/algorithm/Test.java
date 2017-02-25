@@ -10,13 +10,9 @@ import java.util.HashMap;
  * Created by Huirong on 17/2/14.
  */
 public class Test {
-    public static final String PATH = "/Users/quixeynew/data_prodection/";
-    public static final String TRAIN = "train_data_topic.txt";
-    public static final String TEST = "test_data_topics.txt";
-    public static final String FUNCTION = "SRF_data_prodection.txt";
 
     public static void main(String[] args)throws Exception {
-        File file = new File(PATH + FUNCTION);
+        File file = new File(Config.FUNCTION);
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line = null;
         HashMap<String, String> function = new HashMap<String, String>();
@@ -25,7 +21,7 @@ public class Test {
             function.put(split[0].split("-")[0], split[1]);
         }
         br.close();
-        file = new File(PATH + TRAIN);
+        file = new File(Config.SCRAPE_TRAIN);
         br = new BufferedReader(new FileReader(file));
         line = null;
         ArrayList<String> train = new ArrayList<String>();
@@ -36,6 +32,7 @@ public class Test {
             String[] split = line.split(" ");
             String key = split[1].split("\\\\")[5].split("-")[0];
             String[] array = new String[10];
+            System.out.println(Arrays.toString(split));
             for (int i = 2; i < split.length; i = i + 2){
                 array[Integer.parseInt(split[i])] = split[i + 1];
             }
@@ -54,7 +51,7 @@ public class Test {
             }
         }
         br.close();
-        file = new File(PATH + TEST);
+        file = new File(Config.SCRAPE_TEST);
         br = new BufferedReader(new FileReader(file));
         ArrayList<String> test = new ArrayList<String>();
         line = null;
@@ -83,13 +80,13 @@ public class Test {
                 test.add(sb.toString());
             }
         }
-        file = new File(PATH + "train.txt");
+        file = new File(Config.TRAIN);
         BufferedWriter bw = new BufferedWriter(new FileWriter(file));
         for (String t : train){
             bw.write(t + "\n");
         }
         bw.close();
-        file = new File(PATH + "test.txt");
+        file = new File(Config.TEST);
         bw = new BufferedWriter(new FileWriter(file));
         for (String t : test){
             bw.write(t + "\n");
