@@ -1,0 +1,43 @@
+1. ArrayList 与 LinkedList
+    ArrayList:基于一个数组, 自动进行扩容
+    LinkedList: 基于双向链表,
+   ArrayList 读取效率高, 但是写入效率不高 适合随机读取
+   LinkedList 读取效率不高, 写入效率可以, 适合顺序读取
+
+   若需要并发控制, 采用Collections.synchroniedList()
+
+
+2. Map用于保存<key, value>型的数据, Java四种常见的实现 HashMap HashTable TreeMap LinkedHashMap
+    HashMap 根据key的hashCode存储数据, 最多允许1条记录的key为null, 多条记录的值为null
+            非线程安全, 如果需要线程安全(使用Collections的synchronizedMap使HashMap具有线程安全的能力
+            或者使用ConcurrentHashMap)
+            如果key是null, 直接从table[0]对应的链表开始查找
+            设计原理:采用链表地址方式解决hash冲突, 在链表中引入红黑数
+            重点内容:table 扩容机制(threshold 容纳的<key, value>对 = length * loadfactor), 扩容会变为原先的2倍.
+                    hash 计算索引
+                    put机制
+
+
+            HashMap线程不安全: 多个线程添加元素 如果出现key碰撞, 则会添加到同一个位置,会发生数据的覆盖
+                              发生resize的时候, 容易引起死循环
+
+    HashTable(JDK1.5之后弃用) 线程安全, 效率不如ConcurrentHashMap
+
+    LinkedHashMap 保存了记录的插入顺序, 在HashMap的基础上采用双向链表保证数据的插入顺序
+
+    TreeMap 默认按照key升序排列,也可以构造排序器, 并发 Collections.synchronizedSortedMap()
+
+    ------------------------------------------------------------------------------------------
+    HashMap 与HashTable hash运算
+        HashTable key.hashCode % table.length 效率低下
+        HashMap h&(table.length - 1) 代替%运算, h是key.hashCode(其实内部有一个移位运算)
+
+        HashTable 的线程安全实现比较古老其实就是加锁, 而且key和value均不能为空
+                  key 如果是null, hashCode方法调用失败, HashMap做了一下异常处理
+
+
+3. Set、List接口是Collection接口的子接口, 分别是Java的无序和有序集合, 这里指的是插入顺序
+   Queue是Java的队列实现
+
+   Set  HashSet 内部维护了一个HashMap, 内部只利用key, value没用所有的value指向同一个对象
+        LinkedHashSet 内部维护了一个LinkedHashMap
