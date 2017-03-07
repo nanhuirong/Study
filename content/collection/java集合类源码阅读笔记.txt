@@ -7,6 +7,10 @@
 
    若需要并发控制, 采用Collections.synchroniedList()
 
+   原理:写入时复制(copy-on-write), 迭代多余修改
+   CopyOnWriteArrayList
+   CopyOnWriteArraySet
+
 
 2. Map用于保存<key, value>型的数据, Java四种常见的实现 HashMap HashTable TreeMap LinkedHashMap
     HashMap 根据key的hashCode存储数据, 最多允许1条记录的key为null, 多条记录的值为null
@@ -17,6 +21,9 @@
             重点内容:table 扩容机制(threshold 容纳的<key, value>对 = length * loadfactor), 扩容会变为原先的2倍.
                     hash 计算索引
                     put机制
+
+           ConcurrentHashMap 采用分段锁机制
+           与HashTable 和synchronizedHashMap
 
 
             HashMap线程不安全: 多个线程添加元素 如果出现key碰撞, 则会添加到同一个位置,会发生数据的覆盖
@@ -55,3 +62,30 @@
     3)ConcurrentLinkedQueue
 
     4)PriorityQueue 非并发的优先队列
+
+
+
+---------------------------------------------------------------------------------------------
+多线程下的容器
+1.阻塞队列 可用于生产者-消费者模式
+  BlockingQueue
+    LinkedBlockQueue    先进先出的队列
+    ArrayBlockingQueue
+
+    PriorityQueue   基于优先级的队列
+
+    SynchronousQueue    并不是一个真正的队列, 维护一组线程
+
+
+2.双端队列
+  Deque
+    ArrayDeque
+  BlockingDeque
+    LinkedBlockingDeque
+
+
+  适用于工作密取, 每个消费线程有自己的双端队列, 当自己队列为空时, 从别的线程的队列尾部取元素
+  既是生产者问题又是消费者问题
+
+
+

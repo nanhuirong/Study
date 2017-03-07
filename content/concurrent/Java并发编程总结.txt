@@ -22,3 +22,48 @@
             线程所见的值会在使用之前从主内存区域读出
             线程所写的值总会在指令完成前被flush到主内存
 
+
+4.同步工具
+    阻塞队列
+    信号量
+    栅栏  等待线程
+    闭锁  等待事件
+         Latch
+         FutureTask
+
+
+5.并发编程小结
+    可变状态, 所有的并发编程完那提都可以归结wier如何协调对并发状态的访问, 可变状态越少, 越容易保证安全性
+    尽量将域声明为final, 除非他们是可变的
+    不可变对象绝对时线程安全的
+    用锁来保护每一个可变变量
+
+
+6.Executor框架    任务执行的抽象
+    基于生产者消费者模式: 提交任务的操作相当于生产者, 执行任务的线程相当于消费者
+    Executors.newFixedThreadPool()  创建一个固定长度的线程池
+              newCachedThreadPool() 创建一个可缓存的线程, 动态扩张和缩小, 线程池的规模不受任何限制
+              newSingleThreadExecutor() 创建一个单线程的线程池
+              newScheduledThreadPool()  创建一个固定长度的线程池, 而且以延时或者定时的方式执行
+
+    关闭线程池   ExecutorService
+        shutDown()  平滑结束线程池 不再接受新任务, 并等待已提交任务的完成
+        shutdownNow()   尝试取消所有的运行中的任务, 并不再执行已经提交的任务
+
+
+    缺点:没有办法返回一个值, 抛出一个受检测的异常
+         已提交但是未开始的任务可以取消, 已开始的任务只有当他们可以响应中断时才可以取消
+
+
+7.Timer负责管理延时任务和周期任务(有缺陷)
+    考虑用newScheduledThreadPool()来替代
+
+    利用DelayQueue + SchedulerThreadPoolExecutor
+
+
+
+8.Callable与Future(表示一个任务的生命周期)
+    Runnable 与Callable描述的都是抽象的计算任务
+    Callable    call函数可能返回一个值或者抛出一个异常
+    Runnable
+
