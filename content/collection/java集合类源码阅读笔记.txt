@@ -2,6 +2,7 @@
     ArrayList:基于一个数组, 自动进行扩容
     LinkedList: 基于双向链表,
    ArrayList 读取效率高, 但是写入效率不高 适合随机读取
+             并发实现CopyOnWriteArrayList
    LinkedList 读取效率不高, 写入效率可以, 适合顺序读取
 
    若需要并发控制, 采用Collections.synchroniedList()
@@ -10,7 +11,7 @@
 2. Map用于保存<key, value>型的数据, Java四种常见的实现 HashMap HashTable TreeMap LinkedHashMap
     HashMap 根据key的hashCode存储数据, 最多允许1条记录的key为null, 多条记录的值为null
             非线程安全, 如果需要线程安全(使用Collections的synchronizedMap使HashMap具有线程安全的能力
-            或者使用ConcurrentHashMap)
+            或者使用ConcurrentHashMap(读取时不用修改锁, 写入时只锁住要修改的桶))
             如果key是null, 直接从table[0]对应的链表开始查找
             设计原理:采用链表地址方式解决hash冲突, 在链表中引入红黑数
             重点内容:table 扩容机制(threshold 容纳的<key, value>对 = length * loadfactor), 扩容会变为原先的2倍.
@@ -41,3 +42,16 @@
 
    Set  HashSet 内部维护了一个HashMap, 内部只利用key, value没用所有的value指向同一个对象
         LinkedHashSet 内部维护了一个LinkedHashMap
+
+
+
+4.Queue
+    1)BlockingQueue
+        LinkedBlockingQueue
+        ArrayBlockingQueue
+
+    2)TransferQueue
+
+    3)ConcurrentLinkedQueue
+
+    4)PriorityQueue 非并发的优先队列

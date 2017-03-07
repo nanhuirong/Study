@@ -41,7 +41,7 @@ public class ReadData {
     }
 
     public static void main(String[] args)throws Exception {
-        ArrayList<Vector> list = getData(Config.TEST);
+        ArrayList<Vector> list = getData(Config.TRAIN);
         for (Vector vector : list){
             System.out.println(vector.getKey() + "\t" + vector.getVector() +
                     "\t" + vector.getFunctionComponents());

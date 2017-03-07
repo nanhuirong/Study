@@ -11,12 +11,14 @@ import java.util.HashMap;
  */
 public class Test {
 
+
     public static void main(String[] args)throws Exception {
         File file = new File(Config.FUNCTION);
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line = null;
         HashMap<String, String> function = new HashMap<String, String>();
         while ((line = br.readLine()) != null){
+            System.out.println(line);
             String[] split = line.split("\t");
             function.put(split[0].split("-")[0], split[1]);
         }
@@ -31,7 +33,7 @@ public class Test {
             }
             String[] split = line.split(" ");
             String key = split[1].split("\\\\")[5].split("-")[0];
-            String[] array = new String[10];
+            String[] array = new String[Config.TOPIC_NUM];
             System.out.println(Arrays.toString(split));
             for (int i = 2; i < split.length; i = i + 2){
                 array[Integer.parseInt(split[i])] = split[i + 1];
@@ -61,7 +63,7 @@ public class Test {
             }
             String[] split = line.split(" ");
             String key = split[1].split("\\\\")[5].split("-")[0];
-            String[] array = new String[10];
+            String[] array = new String[Config.TOPIC_NUM];
             for (int i = 2; i < split.length; i = i + 2){
                 array[Integer.parseInt(split[i])] = split[i + 1];
             }

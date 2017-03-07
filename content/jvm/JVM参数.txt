@@ -4,6 +4,10 @@
     UseParNewGC 开启此参数使用ParNew & serial old搜集器(不推荐)
     UseConcMarkSweepGC 开启此参数使用ParNew & CMS（serial old为替补）搜集器
     UseParallelOldGC：开启此参数在年老代使用parallel old搜集器（该参数在JDK1.5之后已无用）
+    -XX:+UseG1GC    打开G1收集器
+    -XX:MaxGCPauseMillis=50 一次GC的暂停时间尽量保持在50ms内
+    -XX:GCPauseIntervaMillis=200    两次GC的时间间隔在200ms以上
+    -XX:+PrintCompilation   打开编译日志
 
 2.  JVM内存参数
     Xms java heap 初始值(默认物理内存的1/64)
@@ -28,7 +32,17 @@
     MaxGCPauseMillis：设置垃圾回收的最大停顿时间。若无法满足设置值，则会优先缩小新生代大小，仍无法满足的话则会牺牲吞吐量。
 
     并发垃圾回收期参数
+    CMSIncrementalMode  增量模式
+    CMSIncrementalPacing    配合增量模式, 根据应用程序的行为自动调整每次执行垃圾回收任务的幅度
     CMSInitiatingOccupancyFraction：触发CMS收集器的内存比例。比如60%的意思就是说，当内存达到60%，就会开始进行CMS并发收集。
     UseCMSCompactAtFullCollection：这个前面已经提过，用于在每一次CMS收集器清理垃圾后送一次内存整理。
     CMSFullGCsBeforeCompaction：设置在几次CMS垃圾收集后，触发一次内存整理。
+
+
+
+3.打印GC日志
+    verbose:gc
+    -XX:+PrintGCDetails
+    -XX:+PrintGCDateStamps
+    -XX:+PrintGCApplicationConcurrentTime
 

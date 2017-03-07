@@ -99,11 +99,34 @@
             3.并发模式失败 serial old作为备选, 进行full gc
 
 
+    G1回收器   将堆分成一个大小相同的区域, 不区分新生代和年老代
+              G1只会在有限的时间收集尽可能的区域
+
+
 
 
 9.  client与server模式
     client 启动快, 但不适合长时间运行
     server 启动慢, 适合长时间运行
+
+
+10. jmap -heap PID  当前进程的堆快照
+    jmap -histo PID 柱状图
+
+    VirsualVm
+
+
+
+
+11. Hotspot 的JIT编译
+    内联方法    将调用方法的代码直接放入调用者内部
+
+
+12. JVM备选语言
+    Groovy
+    Scala
+    Clojure
+
 
 
 

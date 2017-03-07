@@ -7,21 +7,22 @@ import java.util.*;
  * Created by Huirong on 17/2/13.
  */
 public class Algorithm {
-    public void pipeLine() throws Exception {
+    public double pipeLine(double threshold, double threshold1) throws Exception {
         System.out.println();
         //读取训练集
         ArrayList<Vector> trainData = ReadData.getData(Config.TRAIN);
         //读取测试集
         ArrayList<Vector> testData = ReadData.getData(Config.TEST);
         //为测试集挑选符合特定阈值的向量
-        ArrayList<Entity> entities = selectVector(trainData, testData, 0.7);
+        ArrayList<Entity> entities = selectVector(trainData, testData, threshold);
 //        System.out.println("------------------------");
 //        System.out.print(entities);
         //基于偏度进行二次过滤
-        entities = selectVectorAdvance(entities, 0.5);
+//        entities = selectVectorAdvance(entities, threshold2);
 //        System.out.println("------------------------");
 //        System.out.print(entities);
-        recommed(entities);
+        double res = recommed(entities, threshold1);
+        return res;
 //        selectFunctionComponents(entities, 0.5);
 
 
@@ -50,13 +51,65 @@ public class Algorithm {
         return skewness;
     }
 
-    private  void recommed(ArrayList<Entity> entities){
+    private  double recommed(ArrayList<Entity> entities, double threshold){
+//        for (Entity entity : entities){
+//            ArrayList<Map.Entry<Integer, Double>> list = computeProbilitity(entity);
+//            System.out.println(entity.trueVector.getKey() + "\t"
+//                    + entity.trueVector.getFunctionComponents());
+//            System.out.println(list);
+//        }
+//        for (Entity entity : entities){
+//            //基于偏度自适应选择阈值
+//            ArrayList<Map.Entry<Integer, Double>> list = computeProbilitity(entity);
+//            double u = 0;
+//            double skness = 1;
+//            while (skness > 0){
+//                for (Map.Entry<Integer, Double> elem : list){
+//                    u += elem.getValue();
+//                }
+//                u = u / (double) list.size();
+//                double upper = 0;
+//                double downer = 0;
+//                for (Map.Entry<Integer, Double> elem : list){
+//                    upper += Math.pow( elem.getValue() - u, 3);
+//                    downer += Math.pow(elem.getValue() - u, 2);
+//                }
+//                upper = upper / list.size();
+//                downer = downer / (list.size());
+//                downer = Math.sqrt(Math.pow(downer, 3));
+//                skness = upper / downer;
+//                System.out.println(skness + "\t" + u);
+//                entity.recommend.getFunctionComponents().add(list.get(list.size() - 1).getKey());
+//                u = list.get(list.size() -1).getValue();
+//                list.remove(list.size() - 1);
+//            }
+//            System.out.println(entity.trueVector.getKey() + "|" + entity.trueVector.getFunctionComponents());
+//            System.out.println(entity.recommend.getFunctionComponents());
+//        }
+        List<Double> res = new ArrayList<>();
         for (Entity entity : entities){
             ArrayList<Map.Entry<Integer, Double>> list = computeProbilitity(entity);
-            System.out.println(entity.trueVector.getKey() + "\t"
-                    + entity.trueVector.getFunctionComponents());
-            System.out.println(list);
+            List<Integer> result = new ArrayList<>();
+            for (Map.Entry<Integer, Double> elem : list){
+                if (elem.getValue() > threshold){
+                    result.add(elem.getKey());
+                }
+            }
+            int count = 0;
+            for (Integer elem : result){
+                if (entity.trueVector.getFunctionComponents().contains(elem))
+                    count++;
+            }
+            res.add(count / (double) entity.trueVector.getFunctionComponents().size());
+//            System.out.println(entity.trueVector.getKey() + "\t" +
+//                    count / (double) entity.trueVector.getFunctionComponents().size());
         }
+        double sum = 0;
+        for (Double elem : res){
+            sum += elem;
+        }
+        System.out.println(sum / res.size());
+        return sum / res.size();
     }
 
     //计算可能选择每一个权限的概率--> 得到一个推荐向量

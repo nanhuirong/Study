@@ -1,7 +1,8 @@
 package com.huirong.spark.format
 
 import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.hadoop.io.{IntWritable, Text}
+import org.apache.hadoop.io.IntWritable
+import org.apache.hadoop.io.Text
 
 /**
   * Created by huirong on 17-2-23.

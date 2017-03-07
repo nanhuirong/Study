@@ -19,7 +19,7 @@ object MyPartition {
     //返回给定键的分区编号
     data.partitions.foreach(partition => partition.hashCode())
     //返回分区类型
-    data.partitioner
+//    data.partitioner
 
     data.count()
     Thread.sleep(100000)

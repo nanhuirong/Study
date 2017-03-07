@@ -12,12 +12,15 @@ public class Vector implements Comparable<Vector> {
     //向量
     private ArrayList<Double> vector;
     //对应功能组件
-    private ArrayList<Integer> functionComponents;
+    private ArrayList<Integer> functionComponents = new ArrayList<Integer>();
     //记录相似度
     private Double Similarity;
 
     public Vector() {
     }
+
+
+
 
     public Vector(String key, ArrayList<Double> vector, ArrayList<Integer> functionComponents, Double similarity) {
         this.key = key;

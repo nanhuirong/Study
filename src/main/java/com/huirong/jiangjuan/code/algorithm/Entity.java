@@ -12,6 +12,7 @@ public class Entity{
     //UUID
     public Vector trueVector;
     public ArrayList<Vector> candidateSet = new ArrayList<Vector>();
+    public Vector recommend = new Vector();
 
 
 
