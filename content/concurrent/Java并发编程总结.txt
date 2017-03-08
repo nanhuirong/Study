@@ -41,14 +41,14 @@
 
 6.Executor框架    任务执行的抽象
     基于生产者消费者模式: 提交任务的操作相当于生产者, 执行任务的线程相当于消费者
-    Executors.newFixedThreadPool()  创建一个固定长度的线程池
+    Executors.newFixedThreadPool()  创建一个固定长度的线程池 利用LinkedBlockingQueue 表示一个无界队列
               newCachedThreadPool() 创建一个可缓存的线程, 动态扩张和缩小, 线程池的规模不受任何限制
-              newSingleThreadExecutor() 创建一个单线程的线程池
+              newSingleThreadExecutor() 创建一个单线程的线程池利用LinkedBlockingQueue 表示一个无界队列
               newScheduledThreadPool()  创建一个固定长度的线程池, 而且以延时或者定时的方式执行
 
     关闭线程池   ExecutorService
         shutDown()  平滑结束线程池 不再接受新任务, 并等待已提交任务的完成
-        shutdownNow()   尝试取消所有的运行中的任务, 并不再执行已经提交的任务
+        shutdownNow()   尝试取消所有的运行中的任务, 并不再执行已经提交的任务并将其返回
 
 
     缺点:没有办法返回一个值, 抛出一个受检测的异常
@@ -66,4 +66,32 @@
     Runnable 与Callable描述的都是抽象的计算任务
     Callable    call函数可能返回一个值或者抛出一个异常
     Runnable
+
+    Future  还可用于定时任务的管理,
+
+
+9.线程取消和终止
+    取消
+        通常, 中断是实现取消最合理的方式
+        通过Future来实现取消  Future.cancel()  true任务正在运行可以被取消
+                                             false任务还没有启动, 就不用运行
+
+
+
+10.线程池的使用
+    任务依赖其他任务, 可能产生死锁(线程饥饿死锁)
+
+    ThreadPoolExecutor 更灵活稳定的线程池
+
+    队列饱和策略  线程池队列饱和
+        AbortPolicy 默认的饱和测略, 会抛出异常
+        CallerRunsPolicy
+        DiscardPolicy   丢弃策略
+        DiscardOldestPolicy 丢弃最老策略 将任务返回到调用者
+
+    定制线程工厂
+
+
+
+
 
