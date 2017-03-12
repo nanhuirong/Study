@@ -22,7 +22,8 @@
                     hash 计算索引
                     put机制
 
-           ConcurrentHashMap 采用分段锁机制
+           ConcurrentHashMap 采用分段锁机制(默认下, 整个桶被16个锁分别管理, 最多支持16个线程的并发访问)
+                             为每一个分段提供一个计数器
            与HashTable 和synchronizedHashMap
 
 
