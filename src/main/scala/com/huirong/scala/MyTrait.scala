@@ -16,5 +16,5 @@ class Cat(name: String)  extends Pet(name: String) with Chipped{
 
 
 class MyTrait {
-
+ Int
 }
