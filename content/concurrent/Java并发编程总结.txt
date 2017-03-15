@@ -189,6 +189,10 @@ CAS 比较并交换 包含3个操作, 需要读写的内存位置V, 进行比较
 
 
 
+24. Condition显示的Condition对象
+25.AbstractQueuedSynchronizer 负责管理同步器中的状态
+
+
 
 
 
