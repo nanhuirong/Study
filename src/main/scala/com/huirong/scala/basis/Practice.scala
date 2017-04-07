@@ -1,9 +1,10 @@
 package com.huirong.scala.basis
 
 
+import java.io.IOException
+
 import scala.io.Source
 import scala.math._
-import scala.sys.process.processInternal.IOException
 
 /**
   * Created by huirong on 17-3-15.
@@ -70,7 +71,7 @@ object Practice {
       case ex: IOException => ex.printStackTrace()
       case ex: Exception => ex.printStackTrace()
     }finally {
-      
+
     }
   }
 

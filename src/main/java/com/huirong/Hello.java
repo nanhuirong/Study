@@ -5,8 +5,9 @@ package com.huirong;
  */
 public class Hello {
     public static void main(String[] args) {
-        Object key = null;
-        System.out.println(key.hashCode());
+        while (true){
+            System.out.println("------------");
+        }
 
     }
 }

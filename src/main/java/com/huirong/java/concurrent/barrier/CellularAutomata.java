@@ -23,7 +23,6 @@ public class CellularAutomata {
             workers[i] = new Worker(mainBoard.getSubBoard(count, i));
         }
     }
-
     private class Worker implements Runnable{
         private final Board board;
         public Worker(Board board){
@@ -47,24 +46,16 @@ public class CellularAutomata {
                 }
             }
         }
-
         private int computeValue(int x, int y){
             return 0;
         }
     }
-
     public void start(){
         for (int i = 0; i < workers.length; i++){
             new Thread(workers[i]).start();
         }
         mainBoard.waitForConvergence();
     }
-
-
-
-
-
-
     interface Board{
         int getMaxX();
         int getMaxY();
