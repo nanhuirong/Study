@@ -12,11 +12,11 @@
 
     <properties>
         <encoding>UTF-8</encoding>
-        <scala.version>2.10.4</scala.version>
-        <spark.version>1.6.0</spark.version>
+        <scala.version>2.11.0</scala.version>
+        <spark.version>2.1.0</spark.version>
         <hadoop.version>2.2.0</hadoop.version>
         <alluxio.version>1.4.0</alluxio.version>
-        <jdk.version>1.7</jdk.version>
+        <jdk.version>1.8</jdk.version>
     </properties>
 
     <build>
@@ -97,6 +97,12 @@
             <artifactId>spark-core_2.10</artifactId>
             <version>${spark.version}</version>
             <!--<scope>provided</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_2.11</artifactId>
+            <version>${spark.version}</version>
         </dependency>
 
         <dependency>
