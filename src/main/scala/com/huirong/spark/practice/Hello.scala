@@ -1,7 +1,6 @@
 package com.huirong.spark.practice
 
 import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.sql.SparkSession
 
 /**
   * Created by huirong on 17-4-26.
@@ -37,16 +36,7 @@ object Hello {
       * DataFrame（在编译时不会对模式进行检查）是特殊的DataSet
       * SparkSession 是Spark2.0引入的API，实际上是SQLContext与HiveContext的组合
       */
-    val session = SparkSession
-      .builder
-      .appName("nanhuirong-sparksession")
-      .getOrCreate()
-    import session.implicits._
-    session.read.text("")
-      .as[String]
-      .flatMap(_.split("\\s+"))
-      .groupByKey(_.toLowerCase())
-      .count()
+
 
   }
 

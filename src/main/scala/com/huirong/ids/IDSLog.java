@@ -3,6 +3,7 @@ package com.huirong.ids;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -11,7 +12,7 @@ import java.util.Locale;
  * Created by huirong on 17-2-23.
  */
 public class IDSLog {
-//    public static final SimpleDateFormat SDF = new SimpleDateFormat("MMM dd HH:mm:ss", Locale.US);
+    public static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
     private Date time;
     private String dt;
     private String level;
@@ -80,6 +81,12 @@ public class IDSLog {
         }else {
             return null;
         }
+    }
+
+    public static void main(String[] args) {
+        Date date = new Date(1487746815368L);
+        System.out.println(SDF.format(date));
+
     }
 
 
@@ -198,7 +205,7 @@ public class IDSLog {
 
     @Override
     public String toString() {
-        return time + "|" + dt + "|" + level + "|" + id + "|" +
+        return SDF.format(time) + "|" + dt + "|" + level + "|" + id + "|" +
                 type + "|" + srcIP + "|" + srcPORT + "|" + srcMAC
                 + "|" + destIP + "|" + destPORT + "|" + destMAC +
                 "|" + protocol + "|" + subject + "|" + message;

@@ -120,6 +120,14 @@ public class NetFlow {
         return destPort;
     }
 
+    public String getSrcIp() {
+        return srcIp;
+    }
+
+    public String getDestIp() {
+        return destIp;
+    }
+
     public boolean isHTTP(){
         if (srcPort.equals("80") || srcPort.equals("8080")){
             return true;

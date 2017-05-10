@@ -13,7 +13,7 @@ object HelloWord {
     data.count()
 
     println("-----------")
-    sc.stop()
+//    sc.stop()
   }
 
 }
