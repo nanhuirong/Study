@@ -29,6 +29,16 @@ public class NetFlow {
     private String tag = null;
     private String timeFrame;
 
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public String getDate() {
+        return date;
+
+    }
+
+
     public static NetFlow parse(String record){
         NetFlow netFlow = new NetFlow();
         String[] split = record.split(" ");

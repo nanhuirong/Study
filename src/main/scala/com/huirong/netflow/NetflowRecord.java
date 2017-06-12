@@ -17,17 +17,25 @@ public class NetflowRecord implements Serializable{
 
 	private Integer id;
 	private String date;    // 偷懒, 用字符串表示日期
+//	持续时间
 	private Double duration;
+//	协议类型
 	private String protocol;
 	private String srcIp;
 	private String srcPort;
 	private String dstIp;
 	private String dstPort;
+//	flag标记位
 	private String flags;
+//	协议编号
 	private String tos;
+//	包数量
 	private Integer packets;
+//	字节数
 	private Long bytes;
+//	每秒传送数据包数量
 	private Integer pps;
+//	平均数据包大小
 	private Long bps;
 	private Long bytespp;
 	private Integer flows;
