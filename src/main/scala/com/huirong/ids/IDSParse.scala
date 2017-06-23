@@ -9,11 +9,18 @@ import org.json.JSONObject
   */
 object IDSParse {
   def main(args: Array[String]) = {
-    val conf = new SparkConf().setAppName("IDSParse")
+    val conf = new SparkConf()
+      .setAppName("IDSParse")
+      .setMaster("local[*]")
+      .set("spark.driver.memory", "5g")
     val sc = new SparkContext(conf)
-    val rdd = sc.textFile("file:///home/huirong/ids.log")
+    val rdd = sc.textFile("file:///home/huirong/graph/ids.log")
     val scrape = parseJson(rdd, sc)
-    scrape.saveAsTextFile("file:///home/huirong/IDS/")
+      .filter(record => record.getTime.startsWith("2017-05-08 "))
+      .coalesce(10)
+    val count = scrape.count()
+    println(s"---${count}")
+    scrape.coalesce(1).saveAsTextFile("file:///home/huirong/graph/IDS/")
     sc.stop()
 
 

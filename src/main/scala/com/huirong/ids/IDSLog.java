@@ -91,8 +91,8 @@ public class IDSLog {
 
 
 
-    public Date getTime() {
-        return time;
+    public String getTime() {
+        return SDF.format(time);
     }
 
     public void setTime(Date time) {

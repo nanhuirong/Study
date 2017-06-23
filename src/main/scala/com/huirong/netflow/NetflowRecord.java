@@ -11,7 +11,14 @@ import java.io.Serializable;
 public class NetflowRecord implements Serializable{
 
 	/**
-	 * 
+	 * 204.122.154.133
+	 * 72.1.176.125
+	 * 24.246.189.137
+	 *
+	 *  212.78.76.129
+	 *   136.2.35.178
+	 *   160.55.227.84
+	 *
 	 */
 	private static final long serialVersionUID = 9171471945904350327L;
 

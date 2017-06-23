@@ -24,11 +24,33 @@ object Main {
       .set("spark.driver.memory", "5g")
     val sc = new SparkContext(conf)
 
-    val inputPath = "file:///home/huirong/graph/tjut/2017-05-08/nfcapd.2017050813*"
-    val out = "file:///home/huirong/graph/tjut/2017-05-08-src-cluster/"
+    val inputPath = "file:///home/huirong/graph/tjut/2017-06-12/nfcapd.2017061221*"
+//    val inputPath = "file:///home/huirong/graph/tjut/2017-05-08/nfcapd.20170508*"
+    val out = "file:///home/huirong/graph/tjut/2017-06-12-src-cluster/"
     var count = 0L
     //读取数据
     val data = loadData(sc, inputPath).coalesce(4)
+//    val parse = buildOneProjection_prefix_innerip(data, "59.67.157").map(record => {
+//      val ip1 = IpAddress.toLong(record._1)
+//      val ip2 = IpAddress.toLong(record._2)
+//      if (ip1 < ip2){
+//        (ip1, ip2, record._3)
+//      }else{
+//        (ip2, ip1, record._3)
+//      }
+//    })
+//    count = parse.count()
+//    println(s"node---${count}")
+//    val edgeRDD = parse.map(pair => new Edge[Long](pair._1, pair._2, pair._3))
+//    if (count > 10){
+//      //创建图
+//      val graph = Graph.fromEdges(edgeRDD, None)
+//      val minProgress = 1
+//      val progressCounter = 1
+//      val runner = new HDFSLouvainRunner(minProgress, progressCounter,
+//        out + "total")
+//      runner.run(sc, graph)
+//    }
     val timeFrame = extractTimeFrame(data)
     timeFrame.foreach(line => println("------" + line))
     for (time <- timeFrame){
@@ -48,7 +70,7 @@ object Main {
         * 59.67.156
         * 59.67.157
         */
-      val parse = buildOneProjection_prefix_innerip(data, time, "59.67.153").map(record => {
+      val parse = buildOneProjection_prefix_innerip(data, time, "59.67.157").map(record => {
         val ip1 = IpAddress.toLong(record._1)
         val ip2 = IpAddress.toLong(record._2)
         if (ip1 < ip2){
@@ -57,6 +79,15 @@ object Main {
           (ip2, ip1, record._3)
         }
       })
+//      val parse = buildOneProjection_prefix_innerip(data, "59.67.153").map(record => {
+//        val ip1 = IpAddress.toLong(record._1)
+//        val ip2 = IpAddress.toLong(record._2)
+//        if (ip1 < ip2){
+//          (ip1, ip2, record._3)
+//        }else{
+//          (ip2, ip1, record._3)
+//        }
+//      })
       count = parse.count()
       println(s"node---${count}")
       val edgeRDD = parse.map(pair => new Edge[Long](pair._1, pair._2, pair._3))
@@ -195,6 +226,42 @@ object Main {
       (record._1.toString, record._2.toString, count.toLong)
     })
     //    result.filter(_._3 > 5)
+    result
+  }
+
+  def buildOneProjection_prefix_innerip(rdd: RDD[Tuple], prefix: String)
+  : RDD[(String, String, Long)] = {
+    //过滤出指定时间的数据，并且是指定网段前缀的
+    val filter = rdd.map(tuple => {
+      if (NetFlowTool.isTJUT(tuple.dIP)){
+        Tuple(tuple.date, tuple.dIP, tuple.dPort, tuple.sIP, tuple.sPort, tuple.protocol)
+      }else{
+        tuple
+      }
+    }).filter(tuple => tuple.sIP.startsWith(prefix))
+    //      && (tuple.dPort.equals("80") || tuple.sPort.equals("80")))
+    val recordRDD = filter.map(tuple => (tuple.sIP, tuple.dIP))
+      .groupByKey()
+      .flatMap(line => line._2.toSet.toArray.sorted.combinations(2))
+      .map(line => (line(0), line(1)))
+    val metrics = filter.map(tuple => (tuple.dIP, tuple.sIP))
+      .groupByKey()
+      .collectAsMap()
+    val result = recordRDD.map(record => {
+      val set1 = metrics(record._1).toSet
+      val set2 = metrics(record._2).toSet
+//      val union = set1 ++ set2
+      var count = 0
+      for (elem <- set1){
+        if (set2.contains(elem)){
+          count = count + 1
+        }
+      }
+      //      val weight = count.toDouble / union.size.toDouble
+      //      (record._1, record._2, f"$weight%1.2f")
+      (record._1.toString, record._2.toString, count.toLong)
+    })
+    result.filter(_._3 > 5)
     result
   }
 

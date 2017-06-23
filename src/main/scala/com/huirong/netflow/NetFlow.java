@@ -33,11 +33,128 @@ public class NetFlow {
         return protocol;
     }
 
+    public static SimpleDateFormat getSdf() {
+        return sdf;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Double duration) {
+        this.duration = duration;
+    }
+
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
+    }
+
+    public void setSrcIp(String srcIp) {
+        this.srcIp = srcIp;
+    }
+
+    public void setSrcPort(String srcPort) {
+        this.srcPort = srcPort;
+    }
+
+    public void setDestIp(String destIp) {
+        this.destIp = destIp;
+    }
+
+    public void setDestPort(String destPort) {
+        this.destPort = destPort;
+    }
+
+    public String getFlags() {
+        return flags;
+    }
+
+    public void setFlags(String flags) {
+        this.flags = flags;
+    }
+
+    public String getTos() {
+        return tos;
+    }
+
+    public void setTos(String tos) {
+        this.tos = tos;
+    }
+
+    public Integer getPackets() {
+        return packets;
+    }
+
+    public void setPackets(Integer packets) {
+        this.packets = packets;
+    }
+
+    public void setBytes(Long bytes) {
+        this.bytes = bytes;
+    }
+
+    public Integer getPps() {
+        return pps;
+    }
+
+    public void setPps(Integer pps) {
+        this.pps = pps;
+    }
+
+    public Long getBps() {
+        return bps;
+    }
+
+    public void setBps(Long bps) {
+        this.bps = bps;
+    }
+
+    public Long getBytespp() {
+        return bytespp;
+    }
+
+    public void setBytespp(Long bytespp) {
+        this.bytespp = bytespp;
+    }
+
+    public Integer getFlows() {
+        return flows;
+    }
+
+    public void setFlows(Integer flows) {
+        this.flows = flows;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getTimeFrame() {
+        return timeFrame;
+    }
+
+    public void setTimeFrame(String timeFrame) {
+        this.timeFrame = timeFrame;
+    }
+
     public String getDate() {
+
         return date;
 
     }
 
+
+    public Long getBytes() {
+        return bytes;
+    }
 
     public static NetFlow parse(String record){
         NetFlow netFlow = new NetFlow();

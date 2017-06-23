@@ -21,11 +21,12 @@ object Metrics {
       .set("spark.driver.memory", "5g")
     val sc = new SparkContext(conf)
 
-    val inputPath = "file:///home/huirong/graph/tjut/2017-05-08"
+    val inputPath = "file:///home/huirong/graph/tjut/2017-06-12"
     val input = loadData(sc, inputPath)
     val metricsPath = "file:///home/huirong/graph/tjut/"
 //    metricsPrefix(input, metricsPath)
-    metricsPrefixNum(input, metricsPath)
+//    metricsPrefixNum(input, metricsPath)
+    metricsPrefixNum_1(input, metricsPath)
     sc.stop()
   }
 
@@ -105,5 +106,59 @@ object Metrics {
 //    result.coalesce(1).saveAsTextFile(outPath + "metricsPrefixNum")
 
   }
+  def metricsPrefixNum_1(rdd: RDD[Tuple], outPath: String) = {
+//    val input = rdd.flatMap(tuple => {
+//      val date = tuple.date.substring(0, tuple.date.length - 2) + "00"
+//      val sipPrefix = tuple.sIP.substring(0, tuple.sIP.lastIndexOf("."))
+//      val dipPrefix = tuple.dIP.substring(0, tuple.dIP.lastIndexOf("."))
+//      Array((date, sipPrefix), (date, dipPrefix))
+//    })
+//    val result = input.groupByKey()
+//      .map(group => {
+//        val set = group._2.toSet
+//        var inCount = 0
+//        var outCount = 0
+//        for (ip <- set){
+//          if (NetFlowTool.isTJUT(ip)){
+//            inCount += 1
+//          }else{
+//            outCount += 1
+//          }
+//        }
+//        (group._1, (inCount, outCount))
+//      })
+//    result.sortBy(_._1)
+//      .map(line => line._1 + "," + line._2._1 + "," + line._2._2)
+//      .coalesce(1)
+//      .saveAsTextFile(outPath + "metricsPrefixNum")
+//    //    result.coalesce(1).saveAsTextFile(outPath + "metricsPrefixNum")
+    val input = rdd.map(tuple => {
+      val time = tuple.date.substring(0, tuple.date.length - 2) + "00"
+      if (NetFlowTool.isTJUT(tuple.sIP)){
+        val prefix = tuple.sIP.substring(0, tuple.sIP.lastIndexOf("."))
+        (time, prefix, tuple.dIP)
+      }else{
+        val prefix = tuple.dIP.substring(0, tuple.dIP.lastIndexOf("."))
+        (time, prefix, tuple.sIP)
+      }
+    })
+    val inPrefix = input.map(pair => (pair._1, pair._2))
+      .groupByKey()
+      .map(pair => {
+        (pair._1, pair._2.toSet.size)
+      })
+    val outNum = input.map(pair => (pair._1, pair._3))
+      .groupByKey()
+      .map(pair => {
+        (pair._1, pair._2.toSet.size)
+      })
+    val result = inPrefix.join(outNum)
+    result.sortByKey().map(pair => pair._1 + "," + pair._2._1 + "," + pair._2._2)
+      .coalesce(1)
+      .saveAsTextFile(outPath + "shabi")
+
+  }
+
+
 
 }
